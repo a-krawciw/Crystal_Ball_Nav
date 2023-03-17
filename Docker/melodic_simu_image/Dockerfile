@@ -1,5 +1,6 @@
 
-FROM nvcr.io/nvidia/cudagl:10.1-devel-ubuntu18.04
+FROM nvidia/cudagl:11.4.2-runtime-ubuntu18.04
+
 
 # Setup timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \

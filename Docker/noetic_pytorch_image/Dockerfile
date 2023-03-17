@@ -1,6 +1,6 @@
 #FROM osrf/ros:noetic-desktop-full
 #FROM vistart/cuda:10.1-cudnn7-runtime-ubuntu20.04
-FROM nvcr.io/nvidia/cudagl:11.0-devel-ubuntu20.04
+FROM nvidia/cudagl:11.4.2-devel-ubuntu20.04
 
 # Setup timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \
@@ -32,7 +32,9 @@ RUN pip3 install --upgrade git+https://github.com/klintan/pypcd.git
 RUN pip3 install imageio
 
 # Install PyTorch
-RUN pip3 install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+#RUN pip3 install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip3 install torch torchvision torchaudio
+
 
 # Additionnal stuff
 RUN apt install ffmpeg -y --no-install-recommends
@@ -116,10 +118,15 @@ RUN pip3 install pynvml
 # Install Mayavi from source
 #RUN pip3 install --upgrade PyQt5
 WORKDIR /workspace/compiled_libs
-RUN git clone --recursive --progress https://github.com/enthought/mayavi.git
-WORKDIR /workspace/compiled_libs/mayavi
-RUN pip3 install -r requirements.txt
-RUN python3 setup.py install 
+#RUN git clone --recursive --progress https://github.com/enthought/mayavi.git
+#WORKDIR /workspace/compiled_libs/mayavi
+#RUN echo "Hiya"
+#RUN ls
+#RUN pip3 install -r requirements.txt
+#RUN python3 setup.py install 
+
+RUN pip3 install mayavi
+
 
 # Install mayavi and QT
 #RUN apt-get install pyqt5-dev-tools pyqt5-dev -y --no-install-recommends

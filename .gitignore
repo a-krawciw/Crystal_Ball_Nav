@@ -25,6 +25,8 @@ Myhal_Simulator/nav_noetic_ws/build
 Myhal_Simulator/nav_noetic_ws/devel
 Myhal_Simulator/nav_noetic_ws/logs
 
+Myhal_Simulator/nav_noetic_ws/.catkin*
+
 
 
 SOGM-3D-2D-Net/core

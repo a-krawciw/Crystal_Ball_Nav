@@ -43,7 +43,8 @@ echo "GAZPORT=$gazport"
 docker_args="-it --rm --shm-size=64g "
 
 # Running on gpu (Uncomment to enable gpu)
-docker_args="${docker_args} --gpus all "
+docker_args="${docker_args} --gpus all,\"capabilities=compute,utility,graphics\""
+
 
 # Docker run arguments (depending if we run detached or not)
 now=`date +%Y-%m-%d_%H-%M-%S`

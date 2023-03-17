@@ -218,8 +218,8 @@ sleep 2.5
 echo -e "\033[1;4;34mRUNNING SIM\033[0m"
 
 OLD_DISPLAY=$DISPLAY
-export DISPLAY=:0
-echo $DISPLAY
+#export DISPLAY=:0
+#echo $DISPLAY
 
 if [ "$XTERM" = true ] ; then
 

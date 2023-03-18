@@ -158,7 +158,7 @@ else
 fi
 
 # Add map path
-loc_launch="$loc_launch init_map_path:=$HOME/Deep-Collison-Checker/Data/Simulation_v2/slam_offline/2020-10-02-13-39-05/map_update_0001.ply"
+loc_launch="$loc_launch init_map_path:=$PWD/../Data/Simulation_v2/slam_offline/2020-10-02-13-39-05/map_update_0001.ply"
 
 # Start localization algo
 if [ "$XTERM" = true ] ; then

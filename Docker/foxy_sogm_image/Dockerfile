@@ -395,8 +395,10 @@ RUN adduser $username0 root
 RUN adduser $username0 sudo 
 RUN echo $username0':myhaljack' | chpasswd  
 
-WORKDIR /home/$username0/eloquent_ws
+WORKDIR /home/$username0/Deep-Collison-Checker
 RUN chown -R $username0:$username0 /home/$username0
+
+ENV JACKAL_SIM_ROOT=/home/$username0/Deep-Collison-Checker/Myhal_Simulator
 
 USER $username0  
 

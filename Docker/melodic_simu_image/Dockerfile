@@ -36,7 +36,7 @@ RUN pip install psutil
 RUN pip install tabulate
 RUN pip install moviepy
 RUN pip install edt
-RUN pip install plyfile scipy jupyterlab
+RUN pip install plyfile==0.7.4 scipy jupyterlab
 
 # Install ros melodic
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'

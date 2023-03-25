@@ -95,7 +95,7 @@ else
     docker run $docker_args \
     $volumes \
     $other_args \
-    --name "$USER-simu-$now" \
+    --name "$USER-simu" \
     melodic_simu_$USER \
     $command
 

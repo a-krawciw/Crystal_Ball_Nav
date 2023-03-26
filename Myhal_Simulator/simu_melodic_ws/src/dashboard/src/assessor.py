@@ -103,6 +103,8 @@ class Assessor(object):
             if not self.mapping_status:
                 print "   Estim: [{:.2f}, {:.2f}] => drift = {:.2f} m".format(est_pose.pose.position.x, est_pose.pose.position.y, drift)
                 print "   Speed: {:.2f} m/s  (average = {:.2f})".format(np.linalg.norm(velocity), self.avg_speed)
+                print "   Estim Orientation: [{:.2f}, {:.2f}, {:.2f}, {:.2f}]".format(est_pose.pose.orientation.x, est_pose.pose.orientation.y, est_pose.pose.orientation.z, est_pose.pose.orientation.w)
+                print "   Real Orientation: [{:.2f}, {:.2f}, {:.2f}, {:.2f}]".format(msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w)
 
         lower_lim_speed = 0.03
         upper_lim_drift = 2

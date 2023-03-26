@@ -27,7 +27,7 @@ Myhal_Simulator/nav_noetic_ws/logs
 
 Myhal_Simulator/nav_noetic_ws/.catkin*
 
-
+.vscode/
 
 SOGM-3D-2D-Net/core
 **/core

@@ -70,6 +70,20 @@ In a second console start the robot navigation with:
 ./run_in_foxy.sh -c "./nav_master.sh -bs -m 2"
 ```
 
+### AER1516 Usage
+
+In a first console start the simulation with:
+
+```
+./run_in_melodic.sh -c "./aer1516_simu.sh -fgvr -t aer1516_tour -p aer1516_params"
+```
+
+In a second console start the robot navigation with:
+
+```
+./run_in_foxy.sh -c "./aer1516_nav.sh -bs -m 2"
+```
+
 ### More details
 
 The simulation script `./simu_master.sh` runs in the melodic container. It takes the following parameters:

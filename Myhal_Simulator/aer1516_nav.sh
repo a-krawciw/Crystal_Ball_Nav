@@ -84,13 +84,13 @@ do
     gt_pose_msg=$(rostopic echo -n 1 /ground_truth/state)
 done
 
-gt_pos_x=$(rostopic echo -n 1 /ground_truth/state/pose/pose/position/x | sed 's/.*: //; s/---//')
-gt_pos_y=$(rostopic echo -n 1 /ground_truth/state/pose/pose/position/y | sed 's/.*: //; s/---//')
-gt_pos_z=$(rostopic echo -n 1 /ground_truth/state/pose/pose/position/z | sed 's/.*: //; s/---//')
-gt_ori_w=$(rostopic echo -n 1 /ground_truth/state/pose/pose/orientation/w | sed 's/.*: //; s/---//')
-gt_ori_x=$(rostopic echo -n 1 /ground_truth/state/pose/pose/orientation/x | sed 's/.*: //; s/---//')
-gt_ori_y=$(rostopic echo -n 1 /ground_truth/state/pose/pose/orientation/y | sed 's/.*: //; s/---//')
-gt_ori_z=$(rostopic echo -n 1 /ground_truth/state/pose/pose/orientation/z | sed 's/.*: //; s/---//')
+gt_pos_x=$(echo "$gt_pose_msg" | awk '/position:/ {getline; print $2}')
+gt_pos_y=$(echo "$gt_pose_msg" | awk '/position:/ {getline; getline; print $2}')
+gt_pos_z=$(echo "$gt_pose_msg" | awk '/position:/ {getline; getline; getline; print $2}')
+gt_ori_x=$(echo "$gt_pose_msg" | awk '/orientation:/ {getline; print $2}')
+gt_ori_y=$(echo "$gt_pose_msg" | awk '/orientation:/ {getline; getline; print $2}')
+gt_ori_z=$(echo "$gt_pose_msg" | awk '/orientation:/ {getline; getline; getline; print $2}')
+gt_ori_w=$(echo "$gt_pose_msg" | awk '/orientation:/ {getline; getline; getline; getline; print $2}')
 
 # Wait for a message with the flow field (meaning the robot is loaded)
 until [[ -n "$puppet_state_msg" ]]

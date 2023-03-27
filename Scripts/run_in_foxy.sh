@@ -93,7 +93,7 @@ else
     docker run $docker_args \
     $volumes \
     $other_args \
-    --name "$USER-foxy-$now" \
+    --name "$USER-foxy" \
     foxy_sogm_$USER \
     $command
 

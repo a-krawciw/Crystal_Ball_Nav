@@ -90,13 +90,20 @@ else
     echo -e "Running command $command\n"
 
     # Execute the command in docker (Example of command: ./master.sh -ve -m 2 -p Sc1_params -t A_tour)
-    docker run $docker_args \
-    $volumes \
-    $other_args \
-    --name "$USER-foxy" \
-    foxy_sogm_$USER \
-    $command
-
+    # Check if container already running
+    if [ "$(docker ps -aq -f name=$USER-foxy)" ]; then
+        # Print that the container is already running
+        echo -e "Container $USER-foxy already running\n"
+        # Join container
+        docker exec -it $USER-foxy /bin/bash
+    else
+        docker run $docker_args \
+        $volumes \
+        $other_args \
+        --name "$USER-foxy" \
+        foxy_sogm_$USER \
+        $command
+    fi
     # Attach a log parameters and log the detached docker
     if [ "$detach" = true ] ; then
         docker logs -f "$USER-foxy-$now" &> $RES_FOLDER/log_sogm_"$now".txt &

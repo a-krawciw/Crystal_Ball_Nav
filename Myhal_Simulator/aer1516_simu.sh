@@ -217,7 +217,7 @@ export QT_X11_NO_MITSHM=1
 # Start the simulation
 sleep 2.5
 echo -e "\033[1;4;34mRUNNING SIM\033[0m"
-
+rosparam set real_time_factor 0.05
 OLD_DISPLAY=$DISPLAY
 #export DISPLAY=:0
 #echo $DISPLAY

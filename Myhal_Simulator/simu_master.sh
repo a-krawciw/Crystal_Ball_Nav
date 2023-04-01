@@ -112,7 +112,7 @@ rosparam set viz_gaz $VIZ_GAZ
 ###################
 
 #    0.05 => for videos    /    0.2 => for fast exps
-rosparam set real_time_factor 0.1
+rosparam set real_time_factor 0.2
 
 # 300 for gen run, 20 for normal run
 rosparam set min_time_before_end 20

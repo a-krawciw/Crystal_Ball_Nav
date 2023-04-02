@@ -285,7 +285,7 @@ if [ "$RVIZ" = true ] ; then
     export DISPLAY=$OLD_DISPLAY
     echo $DISPLAY
     NOHUP_RVIZ_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_rviz.txt"
-    nohup roslaunch myhal_simulator p1_rviz.launch > "$NOHUP_RVIZ_FILE" 2>&1 &
+    nohup roslaunch myhal_simulator p1_rviz_aer1516.launch > "$NOHUP_RVIZ_FILE" 2>&1 &
 fi
 
 

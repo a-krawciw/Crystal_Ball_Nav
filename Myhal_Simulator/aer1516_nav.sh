@@ -266,10 +266,9 @@ if [ "$XTERM" = true ] ; then
         -e $nav_command &
 else
     NOHUP_NAV_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_nav.txt"
-    nohup $nav_command > "$NOHUP_NAV_FILE" 2>&1 &
+    $nav_command
+    # > "$NOHUP_NAV_FILE" 2>&1 &
 fi
-
-echo "OK"
 
 ######
 # Rviz
@@ -374,6 +373,10 @@ if [ "$SOGM" = true ] ; then
     echo " "
            
 fi
+
+
+
+echo "OK"
 
 # Wait for eveyrthing to end before killing the docker container
 velo_state_msg=$(timeout 10 rostopic echo -n 1 /velodyne_points | grep "header")

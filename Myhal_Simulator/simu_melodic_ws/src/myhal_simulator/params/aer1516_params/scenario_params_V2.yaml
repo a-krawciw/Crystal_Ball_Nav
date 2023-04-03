@@ -23,7 +23,7 @@ gen_flowfollowers_tables:
 
 gen_flowfollowers:
   pop_rand_range: "0.001"   
-  pop_density: "0.05"           # 0.08 - 0.14 - 0.2
+  pop_density: "0.01"           # 0.08 - 0.14 - 0.2
   table_rand_range: "0.0"    
   table_percentage: "0.0"     
   actor: actor_flow_follower

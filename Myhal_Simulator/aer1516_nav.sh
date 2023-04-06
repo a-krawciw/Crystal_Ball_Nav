@@ -304,7 +304,7 @@ if [ "$SOGM" = true ] ; then
     t=$(rosparam get start_time)
     NOHUP_SOGM_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_sogm.txt"
     cd onboard_deep_sogm/scripts
-    nohup ./simu_collider.sh > "$NOHUP_SOGM_FILE" 2>&1 &
+    nohup ./simu_collider_aer1516.sh > "$NOHUP_SOGM_FILE" 2>&1 &
     cd ../../
 
     echo "OK"

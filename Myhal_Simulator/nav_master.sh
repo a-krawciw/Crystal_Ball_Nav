@@ -158,7 +158,7 @@ else
 fi
 
 # Add map path
-loc_launch="$loc_launch init_map_path:=$PWD/../Data/Simulation_v2/slam_offline/2020-10-02-13-39-05/map_update_0001.ply"
+loc_launch="$loc_launch init_map_path:=$HOME/Deep-Collison-Checker/Data/Simulation_v2/slam_offline/2020-10-02-13-39-05/map_update_0001.ply"
 
 # Start localization algo
 if [ "$XTERM" = true ] ; then
@@ -288,9 +288,9 @@ if [ "$SOGM" = true ] ; then
 
     t=$(rosparam get start_time)
     NOHUP_SOGM_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_sogm.txt"
-    cd onboard_deep_sogm/scripts/
+    cd onboard_deep_sogm/scripts
     nohup ./simu_collider.sh > "$NOHUP_SOGM_FILE" 2>&1 &
-    cd ../../
+    
 
     echo "OK"
     echo " "
@@ -332,33 +332,6 @@ else
 
         fi
     fi
-fi
-
-
-##########################
-# Run Deep Network Addenda
-##########################
-
-
-if [ "$SOGM" = true ] ; then
-
-    echo " "
-    echo " "
-    echo -e "\033[1;4;34mStarting AER1516 Additions\033[0m"
-    
-    
-
-    t=$(rosparam get start_time)
-    NOHUP_AER_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_aer1516.txt"
-    cd onboard_deep_sogm/scripts
-    nohup ./launch_aer.sh > "$NOHUP_AER_FILE" 2>&1 &
-    cd ../../
-    
-
-    echo "OK"
-    echo " "
-    echo " "
-           
 fi
 
 # Wait for eveyrthing to end before killing the docker container

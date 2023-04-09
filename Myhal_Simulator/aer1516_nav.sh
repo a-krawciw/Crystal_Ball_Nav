@@ -266,8 +266,7 @@ if [ "$XTERM" = true ] ; then
         -e $nav_command &
 else
     NOHUP_NAV_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_nav.txt"
-    $nav_command
-    # > "$NOHUP_NAV_FILE" 2>&1 &
+    $nav_command > "$NOHUP_NAV_FILE" 2>&1 &
 fi
 
 ######

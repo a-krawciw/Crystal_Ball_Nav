@@ -366,11 +366,9 @@ if [ "$SOGM" = true ] ; then
     nohup ./launch_aer.sh > "$NOHUP_AER_FILE" 2>&1 &
     cd ../../
     
-
     echo "OK"
     echo " "
     echo " "
-           
 fi
 
 

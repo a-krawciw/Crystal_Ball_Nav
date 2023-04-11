@@ -209,77 +209,6 @@ do
     point_slam_msg=$(rostopic echo -n 1 /map | grep "frame_id")
 done
 
-##################
-# Start Navigation
-##################
-
-echo " "
-echo " "
-echo -e "\033[1;4;34mStarting navigation\033[0m"
-
-# Chose parameters for global costmap
-if [ "$MAPPING" = "0" ] ; then
-    global_costmap_params="gmapping_costmap_params.yaml"
-else
-    if [ "$FILTER" = true ] ; then
-        global_costmap_params="global_costmap_filtered_params.yaml"
-    else
-        global_costmap_params="global_costmap_params.yaml"
-    fi
-fi
-
-# Chose parameters for local costmap
-if [ "$FILTER" = true ] ; then
-    local_costmap_params="local_costmap_filtered_params.yaml"
-else
-    local_costmap_params="local_costmap_params.yaml"
-fi
-
-# Chose parameters for local planner
-if [ "$TEB" = true ] ; then
-    if [ "$SOGM" = true ] || [ "$GTSOGM" = true ] || [ "$EXTRAPO" = true ] || [ "$IGNORE" = true ] ; then
-        local_planner_params="teb_params_sogm.yaml"
-    else
-        local_planner_params="teb_params_normal.yaml"
-    fi
-else
-    local_planner_params="base_local_planner_params.yaml"
-fi
-
-# Chose local planner algo
-if [ "$TEB" = true ] ; then
-    local_planner="teb_local_planner/TebLocalPlannerROS"
-else
-    local_planner="base_local_planner/TrajectoryPlannerROS"
-fi
-
-# Create launch command
-nav_command="roslaunch jackal_velodyne navigation.launch"
-nav_command="${nav_command} global_costmap_params:=$global_costmap_params"
-nav_command="${nav_command} local_costmap_params:=$local_costmap_params"
-nav_command="${nav_command} local_planner_params:=$local_planner_params"
-nav_command="${nav_command} local_planner:=$local_planner"
-
-# Start navigation algo
-if [ "$XTERM" = true ] ; then
-    xterm -bg black -fg lightgray -xrm "xterm*allowTitleOps: false" -T "Move base" -n "Move base" -hold \
-        -e $nav_command &
-else
-    NOHUP_NAV_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_nav.txt"
-    $nav_command > "$NOHUP_NAV_FILE" 2>&1 &
-fi
-
-######
-# Rviz
-######
-
-RVIZ=false
-if [ "$RVIZ" = true ] ; then
-    t=$(rosparam get start_time)
-    NOHUP_RVIZ_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_rviz.txt"
-    nohup rviz -d nav_noetic_ws/src/jackal_velodyne/rviz/nav.rviz > "$NOHUP_RVIZ_FILE" 2>&1 &
-fi
-
 
 ##################
 # Run Deep Network
@@ -371,7 +300,86 @@ if [ "$SOGM" = true ] ; then
     echo " "
 fi
 
+echo ""
+echo "Waiting for SOGM data ..."
 
+# Wait until the SOGM_image is published
+until [[ -n "$sogm_img" ]]
+do 
+    sleep 0.5
+    sogm_img=$(rostopic echo -n 1 /sogm_img)
+done
+
+##################
+# Start Navigation
+##################
+
+echo " "
+echo " "
+echo -e "\033[1;4;34mStarting navigation\033[0m"
+
+# Chose parameters for global costmap
+if [ "$MAPPING" = "0" ] ; then
+    global_costmap_params="gmapping_costmap_params.yaml"
+else
+    if [ "$FILTER" = true ] ; then
+        global_costmap_params="global_costmap_filtered_params.yaml"
+    else
+        global_costmap_params="global_costmap_params.yaml"
+    fi
+fi
+
+# Chose parameters for local costmap
+if [ "$FILTER" = true ] ; then
+    local_costmap_params="local_costmap_filtered_params.yaml"
+else
+    local_costmap_params="local_costmap_params.yaml"
+fi
+
+# Chose parameters for local planner
+if [ "$TEB" = true ] ; then
+    if [ "$SOGM" = true ] || [ "$GTSOGM" = true ] || [ "$EXTRAPO" = true ] || [ "$IGNORE" = true ] ; then
+        local_planner_params="teb_params_sogm.yaml"
+    else
+        local_planner_params="teb_params_normal.yaml"
+    fi
+else
+    local_planner_params="base_local_planner_params.yaml"
+fi
+
+# Chose local planner algo
+if [ "$TEB" = true ] ; then
+    local_planner="teb_local_planner/TebLocalPlannerROS"
+else
+    local_planner="base_local_planner/TrajectoryPlannerROS"
+fi
+
+# Create launch command
+nav_command="roslaunch jackal_velodyne navigation.launch"
+nav_command="${nav_command} global_costmap_params:=$global_costmap_params"
+nav_command="${nav_command} local_costmap_params:=$local_costmap_params"
+nav_command="${nav_command} local_planner_params:=$local_planner_params"
+nav_command="${nav_command} local_planner:=$local_planner"
+
+# Start navigation algo
+if [ "$XTERM" = true ] ; then
+    xterm -bg black -fg lightgray -xrm "xterm*allowTitleOps: false" -T "Move base" -n "Move base" -hold \
+        -e $nav_command &
+else
+    NOHUP_NAV_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_nav.txt"
+    $nav_command > "$NOHUP_NAV_FILE" 2>&1 &
+fi
+
+######
+# Rviz
+######
+
+RVIZ=false
+if [ "$RVIZ" = true ] ; then
+    t=$(rosparam get start_time)
+    NOHUP_RVIZ_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_rviz.txt"
+    nohup rviz -d nav_noetic_ws/src/jackal_velodyne/rviz/nav.rviz > "$NOHUP_RVIZ_FILE" 2>&1 &
+fi
 
 echo "OK"
 
@@ -387,7 +395,6 @@ do
         rosparam set /move_base/TebLocalPlannerROS/weight_predicted_costmap 0.0001
     fi
 done 
-
 
 echo "OK"
 echo " "

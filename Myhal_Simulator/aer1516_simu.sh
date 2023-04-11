@@ -118,7 +118,7 @@ rosparam set real_time_factor 0.2
 rosparam set min_time_before_end 20
 
 # Seed for random, 0 for unseeded
-rosparam set rand_seed 99
+rosparam set rand_seed 2
 
 
 ##################
@@ -298,6 +298,8 @@ echo -e "\033[1;4;34mStarting dashboard\033[0m"
 
 rosrun myhal_simulator navigation_goals_V2 &
 rosrun dashboard meta_data.py &
+
+rosservice call /gazebo/pause_physics
 
 rosrun dashboard assessor.py
 

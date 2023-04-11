@@ -22,8 +22,8 @@ gen_flowfollowers_tables:
   table_group_list: all_group
 
 gen_flowfollowers:
-  pop_rand_range: "0.001"   
-  pop_density: "0.03"           # 0.08 - 0.14 - 0.2
+  pop_rand_range: "0.000"   
+  pop_density: "0.04"           # 0.08 - 0.14 - 0.2
   table_rand_range: "0.0"    
   table_percentage: "0.0"     
   actor: actor_flow_follower

@@ -117,6 +117,9 @@ rosparam set real_time_factor 0.2
 # 300 for gen run, 20 for normal run
 rosparam set min_time_before_end 20
 
+# Seed for random, 0 for unseeded
+rosparam set rand_seed 99
+
 
 ##################
 # Logs of the Tour

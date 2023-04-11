@@ -93,6 +93,17 @@ void WorldHandler::LoadParams(){
     ros::init(argc, argv, "WorldHandler");
     ros::NodeHandle nh;
 
+    // Read seed info, if seed 0 then don't see
+    if (!nh.getParam("rand_seed", this->rand_seed)){
+        std::cout << "ERROR READING RAND SEED\n";
+        this->rand_seed = 0;
+    }
+    else if (this->rand_seed > 0){
+        ignition::math::Rand::Seed(this->rand_seed);
+        std::srand(this->rand_seed);
+    }
+
+
     // READ camera info
 
     std::vector<std::string> camera_names;
@@ -112,8 +123,6 @@ void WorldHandler::LoadParams(){
         auto cam = std::make_shared<CamInfo>(info[0], info[1], info[2], info[3], info[4], info[5]);
         this->cam_info.push_back(cam);
     }
-
-    
 
     // READ BUILDING INFO
 
@@ -426,6 +435,7 @@ void WorldHandler::LoadParams(){
 
     std::cout << "\n-----------------------------------------" << std::endl;
     std::cout << "Reading Scenarios: " << std::endl;
+
     for (auto name: scenario_names){
 
         
@@ -659,7 +669,7 @@ void WorldHandler::FillRoom(std::shared_ptr<RoomInfo> room_info){
 
             num_actors = this->custom_actor_spawn_parameters["num_actors"];
             auto a_info = this->actor_info[scenario->actor];
-
+    
             for (int i =0; i<num_actors; i++){
                 auto new_actor = std::make_shared<myhal::Actor>(a_info->name, ignition::math::Pose3d(0,0,1,0,0,ignition::math::Rand::DblUniform(0,6.28)), a_info->filename, a_info->width, a_info->length); //TODO randomize initial Rot
 

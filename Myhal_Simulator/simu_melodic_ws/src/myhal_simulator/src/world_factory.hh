@@ -143,6 +143,8 @@ class WorldHandler{
 
         double robot_radius = std::sqrt((0.21*0.21) + (0.165*0.165));
 
+        double rand_seed = 0;
+
         std::string tour_name;
 
         std::vector<ignition::math::Pose3d> route;

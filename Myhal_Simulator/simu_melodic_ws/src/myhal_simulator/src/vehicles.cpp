@@ -1657,7 +1657,7 @@ FlowFollower::FlowFollower(gazebo::physics::ActorPtr _actor,
         if (i != current_flow)
             rand_order.push_back(i);
     }
-    std::random_shuffle(rand_order.begin(), rand_order.end());
+    //std::random_shuffle(rand_order.begin(), rand_order.end());
 
     // Search for the first new flow that is reachable
     for (auto rand_i : rand_order)
@@ -1711,7 +1711,7 @@ void FlowFollower::CheckGoal()
             if (i != current_flow)
                 rand_order.push_back(i);
         }
-        std::random_shuffle(rand_order.begin(), rand_order.end());
+        //std::random_shuffle(rand_order.begin(), rand_order.end());
 
         // Search for the first new flow that is reachable
         for (auto rand_i : rand_order)

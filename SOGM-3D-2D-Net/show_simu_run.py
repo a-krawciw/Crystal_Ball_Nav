@@ -487,10 +487,10 @@ def plot_collision_dist(selected_runs, gt_t, gt_H, footprint, actor_times, actor
     # Specific results for SOGM ablation
     ####################################
 
-    date0 = '2022-05-00-00-00-00'
-    date1 = '2022-06-02-00-00-00'
-    date2 = '2022-06-05-00-00-00'
-    date3 = '2022-06-08-00-00-00'
+    date0 = '2023-04-12-13-55-00'
+    date1 = '2023-04-12-13-50-46'
+    date2 = '2023-04-12-13-20-35'
+    date3 = '2023-04-12-13-08-39'
 
     mask01 = np.logical_and(np.array(selected_runs) > date0, np.array(selected_runs) < date1)
     mask12 = np.logical_and(np.array(selected_runs) > date1, np.array(selected_runs) < date2)
@@ -847,14 +847,14 @@ def plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor
     # Specific results for SOGM ablation
     ####################################
 
-    date0 = '2022-05-00-00-00-00'
-    date1 = '2022-06-02-00-00-00'
-    date2 = '2022-06-05-00-00-00'
-    date3 = '2022-06-08-00-00-00'
+    date3 = '2023-04-12-13-55-00'
+    date2 = '2023-04-12-13-50-46'
+    date1 = '2023-04-12-13-20-35'
+    date0 = '2023-04-12-13-08-39'
 
-    mask01 = np.logical_and(np.array(selected_runs) > date0, np.array(selected_runs) < date1)
-    mask12 = np.logical_and(np.array(selected_runs) > date1, np.array(selected_runs) < date2)
-    mask23 = np.logical_and(np.array(selected_runs) > date2, np.array(selected_runs) < date3)
+    mask01 = np.logical_and(np.array(selected_runs) >= date0, np.array(selected_runs) < date1)
+    mask12 = np.logical_and(np.array(selected_runs) >= date1, np.array(selected_runs) < date2)
+    mask23 = np.logical_and(np.array(selected_runs) >= date2, np.array(selected_runs) < date3)
 
     SOGM_p1 = np.logical_and(SOGM, mask23)
     SOGM_no_t = np.logical_and(SOGM, mask12)
@@ -1154,8 +1154,8 @@ def main():
 
 
     # Select runs betweemn two dates
-    from_date = '2022-05-19-22-26-08'
-    to_date = '2022-06-07-05-32-42'
+    from_date = '2023-04-05-18-26-08'
+    to_date = '2024-06-07-05-32-42'
     if len(selected_runs) < 1:
         selected_runs = np.sort([f for f in listdir(runs_path) if from_date <= f <= to_date])
 
@@ -1302,7 +1302,7 @@ def main():
     # Plot functions
     ################
 
-    # plot_complete_traj(selected_runs, gt_t, gt_H, footprint)
+    #plot_complete_traj(selected_runs, gt_t, gt_H, footprint)
 
     # save_vid_traj(runs_path, selected_runs, gt_t, gt_H, footprint, actor_times, actor_xy)
 

@@ -83,7 +83,8 @@ RUN apt-get upgrade -y --no-install-recommends
 
 # Additionnal packages
 RUN apt-get install psmisc -y --no-install-recommends
-RUN apt-get install ros-noetic-ros-numpy -y --no-install-recommends
+#RUN apt-get install ros-noetic-ros-numpy -y --no-install-recommends
+RUN pip3 install git+https://github.com/qboticslabs/ros_numpy.git
 RUN pip3 install plyfile scipy jupyterlab
 
 # Install gazebo
@@ -98,7 +99,7 @@ RUN pip3 install psutil
 RUN pip3 install tabulate
 RUN apt-get install ffmpeg -y --no-install-recommends
 RUN apt-get install xdg-utils -y --no-install-recommends
-RUN apt-get install vim-gtk -y --no-install-recommends
+#RUN apt-get install vim-gtk --fix-missing -y --no-install-recommends
 RUN pip3 install moviepy
 
 RUN apt-get install python3-catkin-tools python3-osrf-pycommon -y --no-install-recommends

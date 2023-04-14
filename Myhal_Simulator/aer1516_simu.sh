@@ -209,6 +209,7 @@ nohup rosbag record -O "$PWD/../Data/Simulation_v2/simulated_runs/$t/raw_data.ba
     /classified_points \
     /plan_costmap_3D \
     /move_base/TebLocalPlannerROS/local_plan \
+    /sogm_entropy \
     /move_base/TebLocalPlannerROS/teb_markers > "$NOHUP_ROSBAG_FILE" 2>&1 &
 
     

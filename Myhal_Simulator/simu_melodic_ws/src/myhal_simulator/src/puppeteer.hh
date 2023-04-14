@@ -40,6 +40,7 @@
 #include <thread>
 #include <iomanip>
 #include <stdio.h>
+#include <std_msgs/Float64.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef boost::shared_ptr<SmartCam> SmartCamPtr;
@@ -175,6 +176,10 @@ class Puppeteer: public gazebo::WorldPlugin{
         double aim_real_time_factor;
         double max_step_size;
 
+        // AER1516 addendum
+        bool sogm_active = false;
+        ros::Subscriber sogm_sub;
+
     public: 
         
         void Load(gazebo::physics::WorldPtr _world, sdf::ElementPtr _sdf);
@@ -221,6 +226,8 @@ class Puppeteer: public gazebo::WorldPlugin{
         void parseSavedVehicleTraj();
         
         size_t getCurrentPoseInd(double current_time);
+
+        void SOGMCallback(const std_msgs::Float64::ConstPtr& msg);
 };
 
 #endif

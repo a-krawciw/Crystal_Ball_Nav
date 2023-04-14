@@ -187,6 +187,18 @@ void Puppeteer::Load(gazebo::physics::WorldPtr _world, sdf::ElementPtr _sdf)
 
     // Create ublisher for the state of puppeteer
     state_pub = nh.advertise<std_msgs::String>("puppet_state", 5);
+
+    // AER1516 Addendum
+    // Create subscriber to sogm_entropy topic
+    this->sogm_sub = this->nh.subscribe("/sogm_entropy", 1, &Puppeteer::SOGMCallback, this);
+    this->sogm_active = false;
+}
+
+// SOGMImgCallback function to receive the image from the SOGM node and set the SOGM active flag
+// sogm_entropy is a Float64 message
+void Puppeteer::SOGMCallback(const std_msgs::Float64::ConstPtr& msg)
+{
+    this->sogm_active = true;
 }
 
 void Puppeteer::OnUpdate(const gazebo::common::UpdateInfo &_info)
@@ -414,7 +426,12 @@ void Puppeteer::ProcessUpdate(const gazebo::common::UpdateInfo &_info)
 
         // Update the forces on vehicle
         if (this->vehicle_reprod_poses.size() < 1)
-            vehicle->OnUpdate(_info, dt, near_vehicles, near_objects);
+            //Print whether SOGM is active from this->sogm_active
+            if (this->sogm_active)
+            {
+                vehicle->OnUpdate(_info, dt, near_vehicles, near_objects);
+            }
+            //vehicle->OnUpdate(_info, dt, near_vehicles, near_objects);
     }
 
     // Get current pose index if reprod

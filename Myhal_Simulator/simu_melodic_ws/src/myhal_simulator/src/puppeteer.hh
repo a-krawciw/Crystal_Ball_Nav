@@ -40,7 +40,7 @@
 #include <thread>
 #include <iomanip>
 #include <stdio.h>
-#include <std_msgs/Float64.h>
+#include <std_msgs/Float32.h>
 
 typedef pcl::PointCloud<pcl::PointXYZ> PointCloud;
 typedef boost::shared_ptr<SmartCam> SmartCamPtr;
@@ -227,7 +227,7 @@ class Puppeteer: public gazebo::WorldPlugin{
         
         size_t getCurrentPoseInd(double current_time);
 
-        void SOGMCallback(const std_msgs::Float64::ConstPtr& msg);
+        void SOGMCallback(const std_msgs::Float32::ConstPtr& msg);
 };
 
 #endif

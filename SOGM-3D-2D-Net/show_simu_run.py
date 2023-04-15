@@ -67,7 +67,7 @@ def tukey(x, mu, dx):
     return y
 
 
-def load_gt_poses(days_folder, days):
+def load_gt_poses(days_folder, days, filter_moving=False):
 
     gt_H = []
     gt_t = []
@@ -105,8 +105,15 @@ def load_gt_poses(days_folder, days):
         print('{:s} {:d}/{:d} Done in {:.1f}s'.format(
             day, d, len(days), t2 - t1))
 
-        gt_t += [day_gt_t]
-        gt_H += [day_gt_H]
+        if filter_moving:
+            print(gt_T.shape)
+            moved = (gt_T[:, 0] - gt_T[0, 0]) != 0
+            gt_t += [day_gt_t[moved]]
+            gt_H += [day_gt_H[moved]]
+        else:
+            gt_t += [day_gt_t]
+            gt_H += [day_gt_H]
+
 
         # # Remove frames that are not inside gt timings
         # mask = np.logical_and(day_f_times[d] > day_gt_t[0], day_f_times[d] < day_gt_t[-1])
@@ -846,11 +853,12 @@ def plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor
     ####################################
     # Specific results for SOGM ablation
     ####################################
-
-    date3 = '2023-04-12-13-55-00'
-    date2 = '2023-04-12-13-50-46'
-    date1 = '2023-04-12-13-20-35'
-    date0 = '2023-04-12-13-08-39'
+    date3 = '2024-04-14-16-00-00'
+    date2 = '2023-04-14-16-00-20'
+    date1 = '2023-04-14-15-37-45'
+    date0 = '2023-04-14-14-39-29'
+    #date0 = '2023-04-14-14-12-32' Path weighting
+    #date0 = '2023-04-14-13-26-22' Const Weighting
 
     mask01 = np.logical_and(np.array(selected_runs) >= date0, np.array(selected_runs) < date1)
     mask12 = np.logical_and(np.array(selected_runs) >= date1, np.array(selected_runs) < date2)
@@ -865,7 +873,7 @@ def plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor
     # Print tables
     ##############
 
-    res_names = ['SOGM_p1', 'SOGM_no_t', 'SOGM']
+    res_names = ['No SOGM or RL', 'No RL', 'Euclidean Weighting'] #, 'Path Length Weighting']
     res_masks = [SOGM_p1, SOGM_no_t, SOGM]
 
     packed_results = {r_name: [] for r_name in res_names}
@@ -892,13 +900,13 @@ def plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor
                 print('{:s} | {:7.1f}% {:7.2f}% {:5.0f}s {:5d} /{:d}'.format(run,
                                                                              100 * risky_index,
                                                                              100 * colli_index,
-                                                                             all_times[i][-1],
+                                                                             all_times[i][-1] - all_times[i][0],
                                                                              np.sum(np.array(all_success[i], dtype=np.int32)),
                                                                              len(all_success[i])))
                                                                                     
                 res_risky_index += [100 * risky_index]
                 res_colli_index += [100 * colli_index]
-                res_times += [all_times[i][-1]]
+                res_times += [all_times[i][-1]-all_times[i][0]]
 
         print('-' * 56)
         print('  Avg on {:4d} runs  | {:7.1f}% {:7.2f}% {:5.0f}s'.format(len(res_risky_index),
@@ -1154,7 +1162,7 @@ def main():
 
 
     # Select runs betweemn two dates
-    from_date = '2023-04-05-18-26-08'
+    from_date = '2023-04-14-00-40-08'
     to_date = '2024-06-07-05-32-42'
     if len(selected_runs) < 1:
         selected_runs = np.sort([f for f in listdir(runs_path) if from_date <= f <= to_date])
@@ -1172,7 +1180,7 @@ def main():
 
     # Get gt_poses
     print('Loading gt_poses')
-    gt_t, gt_H = load_gt_poses(runs_path, selected_runs)
+    gt_t, gt_H = load_gt_poses(runs_path, selected_runs, filter_moving=True)
     print('OK')
     print()
 

@@ -196,7 +196,7 @@ void Puppeteer::Load(gazebo::physics::WorldPtr _world, sdf::ElementPtr _sdf)
 
 // SOGMImgCallback function to receive the image from the SOGM node and set the SOGM active flag
 // sogm_entropy is a Float64 message
-void Puppeteer::SOGMCallback(const std_msgs::Float64::ConstPtr& msg)
+void Puppeteer::SOGMCallback(const std_msgs::Float32::ConstPtr& msg)
 {
     this->sogm_active = true;
 }

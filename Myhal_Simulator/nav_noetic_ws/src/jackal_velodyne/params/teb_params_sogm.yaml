@@ -84,10 +84,10 @@ TebLocalPlannerROS:
  weight_dynamic_obstacle: 0               # Default: 50
  weight_dynamic_obstacle_inflation: 0     # Default: 0.1
 
- weight_viapoint: 1
+ weight_viapoint: 0.5
 #  weight_adapt_factor: 2
 
- weight_predicted_costmap: 1.4   # Default: 0.6 direct multiplier of the error function for predicted costmaps
+ weight_predicted_costmap: 0 #1.4   # Default: 0.6 direct multiplier of the error function for predicted costmaps
  weight_static_costmap: 0.7   # Default: 0.6 direct multiplier of the error function for predicted costmaps
 
  # Homotopy Class Planner

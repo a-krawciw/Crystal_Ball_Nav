@@ -292,7 +292,7 @@ if [ "$SOGM" = true ] ; then
     t=$(rosparam get start_time)
     NOHUP_AER_FILE="$PWD/../Data/Simulation_v2/simulated_runs/$t/logs-$t/nohup_aer1516.txt"
     cd onboard_deep_sogm/scripts
-    nohup ./launch_aer.sh > "$NOHUP_AER_FILE" 2>&1 &
+    nohup ./launch_aer.sh $t > "$NOHUP_AER_FILE" 2>&1 &
     cd ../../
     
     echo "OK"

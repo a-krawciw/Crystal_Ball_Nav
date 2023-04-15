@@ -188,6 +188,24 @@ def get_actors_plot_data(actors_t, actors_xy, t0, duration=1.0):
     act_alpha = np.reshape(act_alpha, (-1,))
     return act_xy, act_color, act_alpha
 
+def load_entropy_values(days_folder, days):
+    entropies = []
+    times = []
+    for d, day in enumerate(days):
+        # Load gt from ply files
+        bag_file = join(days_folder, day, 'raw_data.bag')
+        print(f"Opening bag file {bag_file}")
+        data_bag = rosbag.Bag(bag_file)
+        entropy_i = []
+        t_i = []
+        for (_, value, time) in data_bag.read_messages(topics=["/sogm_entropy"]):
+            entropy_i.append(value.data)
+            t_i.append(time.to_sec())
+        entropies.append(entropy_i)
+        times.append(t_i)
+        data_bag.close()
+    return times, entropies
+
 
 def interp_actor_xy(actor_times, actor_xy, sorted_times):
 
@@ -1133,6 +1151,18 @@ def plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor
 
     return
 
+def plot_entropy(folder, days):
+    times, entropies = load_entropy_values(folder, days)
+    plt.figure("Entopy")
+    for t_i, e_i, day in zip(times, entropies, days):
+        print(np.count_nonzero(np.isnan(e_i)))
+        avg = np.nanmean(e_i)
+        plt.plot(t_i, e_i, label=f"{day} Avg={avg:.1f}bits")
+        plt.xlabel("Simulation Time (s)")
+    plt.legend()
+    plt.show()
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 #
@@ -1162,7 +1192,7 @@ def main():
 
 
     # Select runs betweemn two dates
-    from_date = '2023-04-14-00-40-08'
+    from_date = '2023-04-14-15-40-08'
     to_date = '2024-06-07-05-32-42'
     if len(selected_runs) < 1:
         selected_runs = np.sort([f for f in listdir(runs_path) if from_date <= f <= to_date])
@@ -1315,8 +1345,9 @@ def main():
     # save_vid_traj(runs_path, selected_runs, gt_t, gt_H, footprint, actor_times, actor_xy)
 
     # plot_collision_dist(selected_runs, gt_t, gt_H, footprint, actor_times, actor_xy, all_times, all_success, all_nav_info)
-    plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor_xy, all_times, all_success, all_nav_info)
-
+    #plot_ablation_study(selected_runs, gt_t, gt_H, footprint, actor_times, actor_xy, all_times, all_success, all_nav_info)
+    
+    plot_entropy(runs_path, selected_runs)
     # plot_slider_traj(selected_runs, gt_t, gt_H, footprint, actor_times, actor_xy)
 
 
